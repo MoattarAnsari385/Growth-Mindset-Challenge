@@ -21,7 +21,7 @@ if upload_files:
                 if file_ext == ".csv":
                     df = pd.read_csv(file)
                 elif file_ext == ".xlsx":
-                    df = pd.read_excel(file)
+                    df = pd.read_excel(file, engine='openpyxl')  
                 else:
                     st.error(f"Unsupported file type {file_ext}")
                     continue
@@ -54,8 +54,8 @@ if upload_files:
             if st.checkbox(f"Show Visualization for {file.name}"):
                 numeric_data = df.select_dtypes(include='number').columns
                 if not numeric_data.empty:
-                    x_axis = st.selectbox("Select X-axis", numeric_cols)
-                    y_axis = st.selectbox("Select Y-axis", numeric_cols)
+                    x_axis = st.selectbox(f"Select X-axis for {file.name}", numeric_cols, key=f"x_axis_{file.name}")
+                    y_axis = st.selectbox(f"Select Y-axis for {file.name}", numeric_cols, key=f"y_axis_{file.name}")
                     fig = px.bar(df, x=x_axis, y=y_axis, title=f"Bar Chart for {file.name}")
                     st.plotly_chart(fig)
                 else:
