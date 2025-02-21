@@ -50,10 +50,10 @@ if upload_files:
             columns = st.multiselect(f"Choose Columns for {file.name}", df.columns, default=df.columns)
             df = df[columns]
             
-            st.subheader("📊 Data Visualization")
+           st.subheader("📊 Data Visualization")
             if st.checkbox(f"Show Visualization for {file.name}"):
-                numeric_data = df.select_dtypes(include='number').columns
-                if not numeric_data.empty:
+                numeric_cols = df.select_dtypes(include='number').columns  
+                if not numeric_cols.empty:
                     x_axis = st.selectbox(f"Select X-axis for {file.name}", numeric_cols, key=f"x_axis_{file.name}")
                     y_axis = st.selectbox(f"Select Y-axis for {file.name}", numeric_cols, key=f"y_axis_{file.name}")
                     fig = px.bar(df, x=x_axis, y=y_axis, title=f"Bar Chart for {file.name}")
